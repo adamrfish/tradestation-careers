@@ -55,7 +55,7 @@ export default function Home() {
                 src="/images/hero-trading.jpg"
                 alt="TradeStation - Born to Trade"
                 fill
-                className="object-cover object-[40%_25%] lg:object-[center_25%]"
+                className="object-cover object-[85%_25%] lg:object-[center_25%]"
                 priority
               />
             </div>
@@ -92,7 +92,7 @@ export default function Home() {
             </div>
 
             {/* Three Value Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-4">
               <div className="bg-[#32353D] rounded-lg p-10">
                 <Users className="size-8 text-[#0089FF] mb-6" />
                 <h3 className="text-lg text-white font-semibold mb-3">Traders first</h3>
