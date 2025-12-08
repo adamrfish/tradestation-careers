@@ -17,7 +17,7 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
               {/* Left Column - Headline */}
               <div>
-                <h1 className="text-4xl lg:text-5xl font-medium text-white leading-tight">
+                <h1 className="text-4xl md:text-5xl font-medium text-white leading-tight">
                   At Tradestation, we&apos;re born to trade — and born to build.
                 </h1>
               </div>
