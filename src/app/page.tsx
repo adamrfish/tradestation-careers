@@ -17,7 +17,7 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
               {/* Left Column - Headline */}
               <div>
-                <h1 className="text-5xl lg:text-5xl font-medium text-white leading-tight">
+                <h1 className="text-4xl lg:text-5xl font-medium text-white leading-tight">
                   At Tradestation, we&apos;re born to trade — and born to build.
                 </h1>
               </div>
@@ -55,7 +55,7 @@ export default function Home() {
                 src="/images/hero-trading.jpg"
                 alt="TradeStation - Born to Trade"
                 fill
-                className="object-cover object-[center_25%]"
+                className="object-cover object-[40%_25%] lg:object-[center_25%]"
                 priority
               />
             </div>
