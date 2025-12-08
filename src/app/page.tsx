@@ -92,7 +92,7 @@ export default function Home() {
             </div>
 
             {/* Three Value Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-4">
               <div className="bg-[#32353D] rounded-lg p-10">
                 <Users className="size-8 text-[#0089FF] mb-6" />
                 <h3 className="text-lg text-white font-semibold mb-3">Traders first</h3>
