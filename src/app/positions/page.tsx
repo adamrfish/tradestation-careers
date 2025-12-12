@@ -14,24 +14,26 @@ export const metadata: Metadata = {
 export default async function PositionsPage() {
   const jobs = await fetchJobs();
 
-  // Transform to simpler format for the list
-  const positions: Job[] = jobs.map((job) => ({
-    id: job.id,
-    slug: job.slug,
-    title: job.title,
-    department: job.department,
-    location: job.location,
-    state: job.state,
-    country: job.country,
-    postalCode: job.postalCode,
-    locationType: job.locationType,
-    type: job.type,
-    jobId: job.jobId,
-    applyUrl: job.applyUrl,
-    publishedDate: job.publishedDate,
-    updatedDate: job.updatedDate,
-    summary: job.summary,
-  }));
+  // Transform to simpler format for the list and sort alphabetically by title
+  const positions: Job[] = jobs
+    .map((job) => ({
+      id: job.id,
+      slug: job.slug,
+      title: job.title,
+      department: job.department,
+      location: job.location,
+      state: job.state,
+      country: job.country,
+      postalCode: job.postalCode,
+      locationType: job.locationType,
+      type: job.type,
+      jobId: job.jobId,
+      applyUrl: job.applyUrl,
+      publishedDate: job.publishedDate,
+      updatedDate: job.updatedDate,
+      summary: job.summary,
+    }))
+    .sort((a, b) => a.title.localeCompare(b.title));
 
   // Get unique values for filters
   const locations = [
