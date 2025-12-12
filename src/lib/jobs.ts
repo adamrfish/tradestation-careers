@@ -111,7 +111,18 @@ function extractTextSection(html: string, sectionStart: string, sectionEnd: stri
   return texts.join(" ").trim();
 }
 
-function determineLocationType(location: string, state: string): "Onsite" | "Remote" | "Hybrid" {
+function determineLocationType(remoteType: string, location: string, state: string): "Onsite" | "Remote" | "Hybrid" {
+  const lowerRemoteType = remoteType.toLowerCase();
+
+  // Check the newton:remotetype field first (most accurate)
+  if (lowerRemoteType.includes("remote")) {
+    return "Remote";
+  }
+  if (lowerRemoteType.includes("hybrid")) {
+    return "Hybrid";
+  }
+
+  // Fallback to checking location/state for legacy compatibility
   const lowerLocation = location.toLowerCase();
   const lowerState = state.toLowerCase();
 
@@ -137,12 +148,14 @@ function parseEntry(entry: string): JobDetail | null {
 
     const id = getId("id");
     const title = getId("title");
-    const department = getNewtonField("department") || getId("category")?.replace('term="', "").replace('"', "") || "";
+    const rawDepartment = getNewtonField("department") || getId("category")?.replace('term="', "").replace('"', "") || "";
+    const department = decodeHtmlEntities(rawDepartment);
     const location = getNewtonField("location") || "";
     const state = getNewtonField("state") || "";
     const country = getNewtonField("country") || "";
     const postalCode = getNewtonField("postal_code") || "";
     const jobId = getNewtonField("jobId") || "";
+    const remoteType = getNewtonField("remotetype") || "";
     const publishedDate = getId("published");
     const updatedDate = getId("updated");
 
@@ -153,8 +166,8 @@ function parseEntry(entry: string): JobDetail | null {
     const summaryMatch = entry.match(/<summary[^>]*>([\s\S]*?)<\/summary>/);
     const summaryHtml = summaryMatch ? summaryMatch[1] : "";
 
-    // Determine location type
-    const locationType = determineLocationType(location, state);
+    // Determine location type from newton:remotetype field
+    const locationType = determineLocationType(remoteType, location, state);
 
     // Format location string
     let formattedLocation = location;
