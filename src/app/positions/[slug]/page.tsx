@@ -219,7 +219,7 @@ export default async function PositionDetailPage({
                 {/* Benefits Card - Mobile Only */}
                 <div className="lg:hidden mb-8">
                   <Card className="p-6 border-[#E6E7EA] shadow-none rounded-lg">
-                    <h3 className="text-lg font-semibold text-[#0089FF] mb-3">
+                    <h3 className="text-lg font-semibold text-[#0089FF] mb-2">
                       Benefits at TradeStation
                     </h3>
                     <ul className="space-y-2">
@@ -235,7 +235,7 @@ export default async function PositionDetailPage({
                     </ul>
                     <Link
                       href="/"
-                      className="inline-block mt-3 text-sm font-medium text-[#0089FF] hover:text-[#005bef] transition-colors"
+                      className="inline-block mt-2 text-sm font-medium text-[#0089FF] hover:text-[#005bef] transition-colors"
                     >
                       Learn more about our mission
                     </Link>
@@ -258,7 +258,7 @@ export default async function PositionDetailPage({
               {/* Sidebar - Desktop Only */}
               <div className="hidden lg:block lg:w-80 shrink-0">
                 <Card className="p-6 sticky top-32 border-[#E6E7EA] shadow-none rounded-lg">
-                  <h3 className="text-lg font-semibold text-[#0089FF] mb-3">
+                  <h3 className="text-lg font-semibold text-[#0089FF] mb-2">
                     Benefits at TradeStation
                   </h3>
                   <ul className="space-y-2">
@@ -274,7 +274,7 @@ export default async function PositionDetailPage({
                   </ul>
                   <Link
                     href="/"
-                    className="inline-block mt-3 text-sm font-medium text-[#0089FF] hover:text-[#005bef] transition-colors"
+                    className="inline-block mt-2 text-sm font-medium text-[#0089FF] hover:text-[#005bef] transition-colors"
                   >
                     Learn more about our mission
                   </Link>
