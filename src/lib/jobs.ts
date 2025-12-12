@@ -258,9 +258,7 @@ function parseEntry(entry: string): JobDetail | null {
 
 export async function fetchJobs(): Promise<JobDetail[]> {
   try {
-    const response = await fetch(FEED_URL, {
-      cache: "no-store", // Always fetch fresh data
-    });
+    const response = await fetch(FEED_URL);
 
     if (!response.ok) {
       throw new Error(`Failed to fetch jobs: ${response.status}`);
