@@ -91,6 +91,7 @@ const mainMenuItems: MenuItem[] = [
 ];
 
 const careersSubNav = [
+  { label: "Overview", href: "https://www.tradestation.com/careers/overview/", external: true },
   { label: "Our company", href: "https://www.tradestation.com/why-tradestation/", external: true },
   { label: "ESG & Sustainability", href: "https://www.tradestation.com/esg/overview", external: true },
   { label: "Explore Jobs", href: "/positions" },

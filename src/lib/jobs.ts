@@ -147,7 +147,7 @@ function parseEntry(entry: string): JobDetail | null {
     };
 
     const id = getId("id");
-    const title = getId("title");
+    const title = decodeHtmlEntities(getId("title"));
     const rawDepartment = getNewtonField("department") || getId("category")?.replace('term="', "").replace('"', "") || "";
     const department = decodeHtmlEntities(rawDepartment);
     const location = getNewtonField("location") || "";
@@ -175,6 +175,10 @@ function parseEntry(entry: string): JobDetail | null {
       formattedLocation = `${location}, ${state}`;
     } else if (state.toLowerCase() === "virtual" || location.toLowerCase() === "virtual") {
       formattedLocation = "USA";
+    }
+    // Add country for non-US locations
+    if (country && country !== "United States") {
+      formattedLocation = `${location}, ${country}`;
     }
 
     // Parse the summary HTML for detailed content
@@ -255,7 +259,7 @@ function parseEntry(entry: string): JobDetail | null {
 export async function fetchJobs(): Promise<JobDetail[]> {
   try {
     const response = await fetch(FEED_URL, {
-      next: { revalidate: false }, // Static: fetch once at build time
+      cache: "no-store", // Always fetch fresh data
     });
 
     if (!response.ok) {
