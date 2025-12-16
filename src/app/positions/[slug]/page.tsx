@@ -120,7 +120,7 @@ export default async function PositionDetailPage({
                   href="https://www.youtube.com/watch?v=58WjD5HQtAE"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block text-base text-[#0089FF] hover:text-[#005bef] transition-colors mb-8"
+                  className="inline-block text-base font-semibold text-[#0089FF] hover:text-[#005bef] transition-colors mb-8"
                 >
                   #WeAreTradeStation
                 </a>
@@ -261,6 +261,13 @@ export default async function PositionDetailPage({
                   >
                     Apply
                   </Link>
+                </div>
+
+                {/* Equal Employment Opportunity Statement */}
+                <div className="mt-12 pt-8 border-t border-[#E6E7EA]">
+                  <p className="text-sm text-[#040d2e] leading-relaxed">
+                    TradeStation provides equal employment opportunities to current and prospective employees, without regard to race, color, religion, sex, national origin, ancestry, sexual orientation, age, pregnancy, disability, handicap, citizenship, veteran or marital status, or any other legally recognized status entitled to protection under federal, state, or local anti-discrimination laws.
+                  </p>
                 </div>
               </div>
 
