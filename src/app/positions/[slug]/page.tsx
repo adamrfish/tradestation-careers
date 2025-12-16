@@ -116,16 +116,24 @@ export default async function PositionDetailPage({
             <div className="flex flex-col lg:flex-row gap-12">
               {/* Main Content */}
               <div className="flex-1">
-                <p className="text-base text-[#040D2E] mb-8">#WeAreTradeStation</p>
+                <a
+                  href="https://www.youtube.com/watch?v=58WjD5HQtAE"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-base text-[#0089FF] hover:text-[#005bef] transition-colors mb-8"
+                >
+                  #WeAreTradeStation
+                </a>
 
                 {position.whoWeAre && (
                   <div className="mb-8">
                     <h2 className="text-base font-bold text-[#040D2E] underline mb-4">
                       Who We Are:
                     </h2>
-                    <p className="text-base font-normal text-[#333] leading-loose">
-                      {position.whoWeAre}
-                    </p>
+                    <div
+                      className="text-base font-normal text-[#333] leading-loose [&>em]:italic [&>strong]:font-semibold"
+                      dangerouslySetInnerHTML={{ __html: position.whoWeAre }}
+                    />
                   </div>
                 )}
 
@@ -134,9 +142,10 @@ export default async function PositionDetailPage({
                     <h2 className="text-base font-bold text-[#040D2E] underline mb-4">
                       What We Are Looking For:
                     </h2>
-                    <p className="text-base font-normal text-[#333] leading-loose">
-                      {position.whatWeLookFor}
-                    </p>
+                    <div
+                      className="text-base font-normal text-[#333] leading-loose [&>em]:italic [&>strong]:font-semibold"
+                      dangerouslySetInnerHTML={{ __html: position.whatWeLookFor }}
+                    />
                   </div>
                 )}
 

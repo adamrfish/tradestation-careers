@@ -52,6 +52,12 @@ function decodeHtmlEntities(text: string): string {
     .replace(/&amp;/g, "&")
     .replace(/&quot;/g, '"')
     .replace(/&#39;/g, "'")
+    .replace(/&apos;/g, "'")
+    .replace(/&#x27;/g, "'")
+    .replace(/\u2019/g, "'")  // Right single quotation mark (curly apostrophe) to straight
+    .replace(/\u2018/g, "'")  // Left single quotation mark to straight
+    .replace(/\u201C/g, '"')  // Left double quotation mark to straight
+    .replace(/\u201D/g, '"')  // Right double quotation mark to straight
     .replace(/&nbsp;/g, " ");
 }
 
@@ -62,18 +68,114 @@ function stripHtml(html: string): string {
     .trim();
 }
 
-function extractListItems(html: string, sectionStart: string, sectionEnd?: string): string[] {
-  const decoded = decodeHtmlEntities(html);
-  const startIndex = decoded.indexOf(sectionStart);
-  if (startIndex === -1) return [];
+// Sanitize HTML but preserve allowed formatting tags
+function sanitizeHtml(html: string): string {
+  // First, normalize line breaks - convert <br>, <br/>, <br /> to a placeholder
+  let result = html.replace(/<br\s*\/?>/gi, "{{BR}}");
 
-  let endIndex = decoded.length;
-  if (sectionEnd) {
-    const foundEnd = decoded.indexOf(sectionEnd, startIndex + sectionStart.length);
-    if (foundEnd !== -1) endIndex = foundEnd;
+  // Convert block elements to line breaks
+  result = result.replace(/<\/(p|div)>/gi, "{{BR}}");
+  result = result.replace(/<(p|div)[^>]*>/gi, "");
+
+  // Preserve italic/emphasis tags by converting to placeholders (handle tags with attributes)
+  result = result.replace(/<(i|em)(\s[^>]*)?>/gi, "{{EM_OPEN}}");
+  result = result.replace(/<\/(i|em)>/gi, "{{EM_CLOSE}}");
+
+  // Preserve bold/strong tags by converting to placeholders (handle tags with attributes)
+  result = result.replace(/<(b|strong)(\s[^>]*)?>/gi, "{{STRONG_OPEN}}");
+  result = result.replace(/<\/(b|strong)>/gi, "{{STRONG_CLOSE}}");
+
+  // Remove all other HTML tags
+  result = result.replace(/<[^>]*>/g, "");
+
+  // Convert placeholders back to actual tags
+  result = result.replace(/\{\{BR\}\}/g, "<br />");
+  result = result.replace(/\{\{EM_OPEN\}\}/g, "<em>");
+  result = result.replace(/\{\{EM_CLOSE\}\}/g, "</em>");
+  result = result.replace(/\{\{STRONG_OPEN\}\}/g, "<strong>");
+  result = result.replace(/\{\{STRONG_CLOSE\}\}/g, "</strong>");
+
+  // Clean up multiple consecutive <br> tags
+  result = result.replace(/(<br \/>[\s]*){3,}/g, "<br /><br />");
+
+  // Clean up whitespace (but preserve single spaces)
+  result = result.replace(/[ \t]+/g, " ");
+
+  // Remove leading/trailing whitespace around <br> tags
+  result = result.replace(/\s*<br \/>\s*/g, "<br />");
+
+  // Remove leading <br> tags
+  result = result.replace(/^(<br \/>)+/, "");
+
+  // Remove trailing <br> tags
+  result = result.replace(/(<br \/>)+$/, "");
+
+  return result.trim();
+}
+
+// All known section headers in the feed (used for boundary detection)
+const ALL_SECTION_HEADERS = [
+  "Who We Are",
+  "What We Are Looking For",
+  "What You'll Be Doing",
+  "The Skills You Bring",
+  "Skills and Training",
+  "Minimum Qualifications",
+  "Required Qualifications",
+  "Desired Qualifications",
+  "What We Offer",
+];
+
+// Find the first matching header from a list of alternatives
+function findSectionStart(decoded: string, alternatives: string[]): { header: string; index: number } | null {
+  for (const header of alternatives) {
+    const index = decoded.indexOf(header);
+    if (index !== -1) {
+      return { header, index };
+    }
+  }
+  return null;
+}
+
+// Find the next section boundary after a given position
+function findNextSectionBoundary(decoded: string, afterPosition: number, excludeHeaders: string[] = []): number {
+  let nextBoundary = decoded.length;
+
+  for (const header of ALL_SECTION_HEADERS) {
+    if (excludeHeaders.includes(header)) continue;
+    const index = decoded.indexOf(header, afterPosition);
+    if (index !== -1 && index < nextBoundary) {
+      nextBoundary = index;
+    }
   }
 
-  const section = decoded.substring(startIndex, endIndex);
+  return nextBoundary;
+}
+
+function extractListItems(html: string, sectionStartAlternatives: string[], nextSectionAlternatives?: string[]): string[] {
+  const decoded = decodeHtmlEntities(html);
+
+  // Find the section start from alternatives
+  const startMatch = findSectionStart(decoded, sectionStartAlternatives);
+  if (!startMatch) return [];
+
+  const afterStart = startMatch.index + startMatch.header.length;
+
+  // Find the section end - either from specific alternatives or next any section
+  let endIndex: number;
+  if (nextSectionAlternatives && nextSectionAlternatives.length > 0) {
+    const endMatch = findSectionStart(decoded.substring(afterStart), nextSectionAlternatives);
+    if (endMatch) {
+      endIndex = afterStart + endMatch.index;
+    } else {
+      // If specified next section not found, find any next section boundary
+      endIndex = findNextSectionBoundary(decoded, afterStart, sectionStartAlternatives);
+    }
+  } else {
+    endIndex = findNextSectionBoundary(decoded, afterStart, sectionStartAlternatives);
+  }
+
+  const section = decoded.substring(startMatch.index, endIndex);
   const listItemRegex = /<li[^>]*>([\s\S]*?)<\/li>/gi;
   const items: string[] = [];
   let match;
@@ -96,19 +198,21 @@ function extractTextSection(html: string, sectionStart: string, sectionEnd: stri
   if (endIndex === -1) return "";
 
   const section = decoded.substring(afterStart, endIndex);
-  // Extract text between divs, excluding the section headers
+  // Extract content between divs, preserving formatting
   const divRegex = /<div[^>]*>([\s\S]*?)<\/div>/gi;
   const texts: string[] = [];
   let match;
 
   while ((match = divRegex.exec(section)) !== null) {
-    const text = stripHtml(match[1]).trim();
-    if (text && !text.includes("<u>") && text.length > 20) {
-      texts.push(text);
+    const content = sanitizeHtml(match[1]).trim();
+    // Check the stripped version for length validation
+    const strippedContent = stripHtml(match[1]).trim();
+    if (strippedContent && !strippedContent.includes("<u>") && strippedContent.length > 20) {
+      texts.push(content);
     }
   }
 
-  return texts.join(" ").trim();
+  return texts.join("<br /><br />").trim();
 }
 
 function determineLocationType(remoteType: string, location: string, state: string): "Onsite" | "Remote" | "Hybrid" {
@@ -196,29 +300,29 @@ function parseEntry(entry: string): JobDetail | null {
 
     const responsibilities = extractListItems(
       summaryHtml,
-      "What You'll Be Doing",
-      "The Skills You Bring"
+      ["What You'll Be Doing"],
+      ["The Skills You Bring", "Skills and Training", "Minimum Qualifications", "Required Qualifications"]
     );
 
     const skills = extractListItems(
       summaryHtml,
-      "The Skills You Bring",
-      "Minimum Qualifications"
+      ["The Skills You Bring", "Skills and Training"],
+      ["Minimum Qualifications", "Required Qualifications"]
     );
 
     const minimumQualifications = extractListItems(
       summaryHtml,
-      "Minimum Qualifications",
-      "Desired Qualifications"
+      ["Minimum Qualifications", "Required Qualifications"],
+      ["Desired Qualifications", "What We Offer"]
     );
 
     const desiredQualifications = extractListItems(
       summaryHtml,
-      "Desired Qualifications",
-      "What We Offer"
+      ["Desired Qualifications"],
+      ["What We Offer"]
     );
 
-    const benefits = extractListItems(summaryHtml, "What We Offer");
+    const benefits = extractListItems(summaryHtml, ["What We Offer"]);
 
     // Create a short summary for the list view
     const summary = whatWeLookFor.substring(0, 200) + (whatWeLookFor.length > 200 ? "..." : "");
