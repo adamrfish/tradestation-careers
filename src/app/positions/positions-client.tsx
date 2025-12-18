@@ -24,6 +24,11 @@ interface PositionsClientProps {
   departments: string[];
 }
 
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+}
+
 function PositionRow({ position }: { position: Job }) {
   return (
     <Link
@@ -34,7 +39,7 @@ function PositionRow({ position }: { position: Job }) {
         {position.title}
       </h3>
       <p className="text-sm text-[#040D2E]">
-        {position.location} ({position.locationType}) | {position.type}
+        {position.location} ({position.locationType}) | {position.type} | {formatDate(position.publishedDate)}
       </p>
     </Link>
   );
