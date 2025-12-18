@@ -173,9 +173,9 @@ export function CareersHeader({ variant = "default", showSubNav = false }: Caree
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* Hiring Banner */}
-      <div className={`text-center py-2 border-b ${variant === "home" ? "bg-[#0A0B0D] border-[#8A919E]/[0.125]" : "bg-[#000730] border-[#8A919E]/[0.125]"}`}>
+      <div className="text-center py-2 border-b bg-[#0089FF] border-[#0089FF]">
         <p className="text-sm font-medium text-white">
-          TradeStation is hiring!
+          TradeStation is <Link href="/positions" className="underline hover:no-underline">hiring</Link>!
         </p>
       </div>
 
@@ -272,10 +272,10 @@ export function CareersHeader({ variant = "default", showSubNav = false }: Caree
 
       {/* Careers Sub Navigation - Only on homepage */}
       {showSubNav && (
-        <div className="bg-[#0A0B0D] border-y border-[#8A919E]/[0.125] overflow-x-auto">
+        <div className="bg-white border-y border-[#E6E7EA] overflow-x-auto">
           <div className="w-[89%] max-w-[1200px] mx-auto">
             <div className="flex h-14 items-center gap-8 whitespace-nowrap">
-              <span className="text-white text-lg font-medium shrink-0">Careers</span>
+              <span className="text-[#040D2E] text-lg font-medium shrink-0">Careers</span>
               <nav className="flex items-center gap-6">
                 {careersSubNav.map((item) => (
                   <Link
@@ -283,7 +283,7 @@ export function CareersHeader({ variant = "default", showSubNav = false }: Caree
                     href={item.href}
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noopener noreferrer" : undefined}
-                    className="text-sm font-medium text-white hover:text-white/80 transition-colors whitespace-nowrap"
+                    className="text-sm font-medium text-[#040D2E] hover:text-[#0089FF] transition-colors whitespace-nowrap"
                   >
                     {item.label}
                   </Link>

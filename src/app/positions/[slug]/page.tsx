@@ -91,19 +91,19 @@ export default async function PositionDetailPage({
             </div>
             <div className="flex flex-wrap gap-16 text-sm mt-8">
               <div>
-                <span className="text-[#666]">Employee Type</span>
+                <span className="text-[#040D2E]">Employee Type</span>
                 <p className="text-[#040D2E] font-medium mt-2">{position.type}</p>
               </div>
               <div>
-                <span className="text-[#666]">Location</span>
+                <span className="text-[#040D2E]">Location</span>
                 <p className="text-[#040D2E] font-medium mt-2">{position.location} ({position.locationType})</p>
               </div>
               <div>
-                <span className="text-[#666]">Job Type</span>
+                <span className="text-[#040D2E]">Job Type</span>
                 <p className="text-[#040D2E] font-medium mt-2">{position.department}</p>
               </div>
               <div>
-                <span className="text-[#666]">Job ID</span>
+                <span className="text-[#040D2E]">Job ID</span>
                 <p className="text-[#040D2E] font-medium mt-2">{position.jobId}</p>
               </div>
             </div>
@@ -131,7 +131,7 @@ export default async function PositionDetailPage({
                       Who We Are:
                     </h2>
                     <div
-                      className="text-base font-normal text-[#333] leading-loose [&>em]:italic [&>strong]:font-semibold"
+                      className="text-base font-normal text-[#040D2E] leading-loose [&>em]:italic [&>strong]:font-semibold"
                       dangerouslySetInnerHTML={{ __html: position.whoWeAre }}
                     />
                   </div>
@@ -143,7 +143,7 @@ export default async function PositionDetailPage({
                       What We Are Looking For:
                     </h2>
                     <div
-                      className="text-base font-normal text-[#333] leading-loose [&>em]:italic [&>strong]:font-semibold"
+                      className="text-base font-normal text-[#040D2E] leading-loose [&>em]:italic [&>strong]:font-semibold"
                       dangerouslySetInnerHTML={{ __html: position.whatWeLookFor }}
                     />
                   </div>
@@ -158,9 +158,9 @@ export default async function PositionDetailPage({
                       {position.responsibilities.map((item, index) => (
                         <li
                           key={index}
-                          className="flex items-start text-base font-normal text-[#333] leading-loose"
+                          className="flex items-start text-base font-normal text-[#040D2E] leading-loose"
                         >
-                          <span className="text-[#333] mr-3">•</span>
+                          <span className="text-[#040D2E] mr-3">•</span>
                           {item}
                         </li>
                       ))}
@@ -177,9 +177,9 @@ export default async function PositionDetailPage({
                       {position.skills.map((item, index) => (
                         <li
                           key={index}
-                          className="flex items-start text-base font-normal text-[#333] leading-loose"
+                          className="flex items-start text-base font-normal text-[#040D2E] leading-loose"
                         >
-                          <span className="text-[#333] mr-3">•</span>
+                          <span className="text-[#040D2E] mr-3">•</span>
                           {item}
                         </li>
                       ))}
@@ -196,9 +196,9 @@ export default async function PositionDetailPage({
                       {position.minimumQualifications.map((item, index) => (
                         <li
                           key={index}
-                          className="flex items-start text-base font-normal text-[#333] leading-loose"
+                          className="flex items-start text-base font-normal text-[#040D2E] leading-loose"
                         >
-                          <span className="text-[#333] mr-3">•</span>
+                          <span className="text-[#040D2E] mr-3">•</span>
                           {item}
                         </li>
                       ))}
@@ -215,9 +215,9 @@ export default async function PositionDetailPage({
                       {position.desiredQualifications.map((item, index) => (
                         <li
                           key={index}
-                          className="flex items-start text-base font-normal text-[#333] leading-loose"
+                          className="flex items-start text-base font-normal text-[#040D2E] leading-loose"
                         >
-                          <span className="text-[#333] mr-3">•</span>
+                          <span className="text-[#040D2E] mr-3">•</span>
                           {item}
                         </li>
                       ))}
@@ -235,7 +235,7 @@ export default async function PositionDetailPage({
                       {benefits.map((benefit, index) => (
                         <li
                           key={index}
-                          className="flex items-start text-sm text-[#333] leading-relaxed"
+                          className="flex items-start text-sm text-[#040D2E] leading-relaxed"
                         >
                           <span className="text-[#0089FF] mr-3">○</span>
                           {benefit}
@@ -281,7 +281,7 @@ export default async function PositionDetailPage({
                     {benefits.map((benefit, index) => (
                       <li
                         key={index}
-                        className="flex items-start text-sm text-[#333] leading-relaxed"
+                        className="flex items-start text-sm text-[#040D2E] leading-relaxed"
                       >
                         <span className="text-[#0089FF] mr-3">○</span>
                         {benefit}

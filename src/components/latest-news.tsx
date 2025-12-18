@@ -55,12 +55,12 @@ function NewsCard({ item }: { item: NewsItem }) {
             href={item.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[#333] hover:text-[#0089FF] transition-colors"
+            className="text-[#040D2E] hover:text-[#0089FF] transition-colors"
           >
             {item.title}
           </Link>
         </h4>
-        <p className="text-sm text-[#666] leading-relaxed">
+        <p className="text-sm text-[#040D2E] leading-relaxed">
           {item.description}
         </p>
       </CardContent>

@@ -33,7 +33,7 @@ function PositionRow({ position }: { position: Job }) {
       <h3 className="text-base font-semibold text-[#040D2E] mb-1">
         {position.title}
       </h3>
-      <p className="text-sm text-[#666]">
+      <p className="text-sm text-[#040D2E]">
         {position.location} ({position.locationType}) | {position.type}
       </p>
     </Link>
@@ -172,7 +172,7 @@ export function PositionsClient({
                     </div>
                   ))
                 ) : (
-                  <div className="py-12 text-center text-sm text-[#666]">
+                  <div className="py-12 text-center text-sm text-[#040D2E]">
                     No positions found matching your criteria.
                   </div>
                 )}
