@@ -20,7 +20,7 @@ import type { Job } from "@/lib/jobs";
 const MapClient = dynamic(() => import("./map-client").then((mod) => mod.MapClient), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px] rounded-none lg:rounded-l-lg overflow-hidden border border-[#E6E7EA] lg:border-r-0 bg-gray-100 animate-pulse flex items-center justify-center">
+    <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px] rounded-lg lg:rounded-l-lg lg:rounded-r-none overflow-hidden border border-[#E6E7EA] lg:border-r-0 bg-gray-100 animate-pulse flex items-center justify-center">
       <div className="text-gray-400 text-sm">Loading map...</div>
     </div>
   ),
@@ -194,10 +194,10 @@ export function MapPageClient({
         </div>
 
         {/* List View */}
-        <div className="lg:w-96 shrink-0 lg:h-[650px] border-0 lg:border lg:border-[#E6E7EA] lg:border-l-0 rounded-none lg:rounded-r-lg overflow-hidden bg-white">
+        <div className="mt-4 lg:mt-0 lg:w-96 shrink-0 lg:h-[650px] border-0 lg:border lg:border-[#E6E7EA] lg:border-l-0 rounded-none lg:rounded-r-lg overflow-hidden bg-white">
           <div className="lg:h-full lg:overflow-y-auto">
-            {/* Header */}
-            <div className="px-6 pt-6 pb-6 border-b border-[#E6E7EA] bg-gray-50">
+            {/* Header - Desktop only */}
+            <div className="hidden lg:block px-6 pt-6 pb-6 border-b border-[#E6E7EA] bg-gray-50">
               <div className="text-lg font-semibold text-[#0089FF]">
                 {displayJobs.length} position{displayJobs.length !== 1 ? "s" : ""}
               </div>

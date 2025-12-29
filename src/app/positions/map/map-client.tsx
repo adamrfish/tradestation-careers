@@ -179,11 +179,15 @@ export function MapClient({ jobs, selectedLocation, onLocationSelect, filterLoca
   useEffect(() => {
     if (!mapContainer.current || map.current) return;
 
+    // Use lower zoom on mobile for better overview
+    const isMobile = window.innerWidth < 640;
+    const initialZoom = isMobile ? 1.5 : 3;
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/light-v11",
       center: [-95, 38], // Center on North America
-      zoom: 3,
+      zoom: initialZoom,
       attributionControl: false,
     });
 
@@ -257,7 +261,7 @@ export function MapClient({ jobs, selectedLocation, onLocationSelect, filterLoca
   }, [filterLocation]);
 
   return (
-    <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[650px] rounded-none lg:rounded-l-lg overflow-hidden border border-[#E6E7EA] lg:border-r-0">
+    <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[650px] rounded-lg lg:rounded-l-lg lg:rounded-r-none overflow-hidden border border-[#E6E7EA] lg:border-r-0">
       {/* Loading skeleton */}
       {!isLoaded && (
         <div className="absolute inset-0 bg-gray-100 animate-pulse flex items-center justify-center">
