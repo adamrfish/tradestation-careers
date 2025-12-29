@@ -92,6 +92,17 @@ export function MapPageClient({
     }
   };
 
+  // Handle remote toggle - clear map selection if turning on remote
+  const handleRemoteToggle = (checked: boolean) => {
+    setIncludeRemote(checked);
+
+    if (checked && mapSelectedLocation !== null) {
+      // Turning on remote while city is selected: clear the city selection
+      setMapSelectedLocation(null);
+      previousRemoteState.current = null;
+    }
+  };
+
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
       const query = searchQuery.toLowerCase();
@@ -186,7 +197,7 @@ export function MapPageClient({
             <Switch
               id="include-remote"
               checked={includeRemote}
-              onCheckedChange={setIncludeRemote}
+              onCheckedChange={handleRemoteToggle}
               className="data-[state=checked]:bg-[#0089FF]"
             />
             <label
