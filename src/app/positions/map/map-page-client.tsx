@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
@@ -13,7 +14,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { Job } from "@/lib/jobs";
-import { MapClient } from "./map-client";
+
+// Lazy load Mapbox to reduce initial bundle size
+const MapClient = dynamic(() => import("./map-client").then((mod) => mod.MapClient), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[400px] sm:h-[500px] lg:h-[650px] rounded-none lg:rounded-l-lg overflow-hidden border border-[#E6E7EA] lg:border-r-0 bg-gray-100 animate-pulse flex items-center justify-center">
+      <div className="text-gray-400 text-sm">Loading map...</div>
+    </div>
+  ),
+});
 
 function PositionRow({ position }: { position: Job }) {
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import type { Job } from "@/lib/jobs";
@@ -85,6 +85,7 @@ export function MapClient({ jobs, selectedLocation, onLocationSelect, filterLoca
   const markers = useRef<mapboxgl.Marker[]>([]);
   const mapLoaded = useRef(false);
   const onLocationSelectRef = useRef(onLocationSelect);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Keep the callback ref updated
   useEffect(() => {
@@ -191,6 +192,7 @@ export function MapClient({ jobs, selectedLocation, onLocationSelect, filterLoca
 
     map.current.on("load", () => {
       mapLoaded.current = true;
+      setIsLoaded(true);
       updateMarkers(jobs, selectedLocation);
     });
 
@@ -255,9 +257,17 @@ export function MapClient({ jobs, selectedLocation, onLocationSelect, filterLoca
   }, [filterLocation]);
 
   return (
-    <div
-      ref={mapContainer}
-      className="w-full h-[400px] sm:h-[500px] lg:h-[650px] rounded-none lg:rounded-l-lg overflow-hidden border border-[#E6E7EA] lg:border-r-0 [&_.mapboxgl-ctrl-bottom-right]:mr-3 [&_.mapboxgl-ctrl-bottom-right]:mb-3"
-    />
+    <div className="relative w-full h-[400px] sm:h-[500px] lg:h-[650px] rounded-none lg:rounded-l-lg overflow-hidden border border-[#E6E7EA] lg:border-r-0">
+      {/* Loading skeleton */}
+      {!isLoaded && (
+        <div className="absolute inset-0 bg-gray-100 animate-pulse flex items-center justify-center">
+          <div className="text-gray-400 text-sm">Loading map...</div>
+        </div>
+      )}
+      <div
+        ref={mapContainer}
+        className="w-full h-full [&_.mapboxgl-ctrl-bottom-right]:mr-3 [&_.mapboxgl-ctrl-bottom-right]:mb-3"
+      />
+    </div>
   );
 }
