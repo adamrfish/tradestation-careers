@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
+import { Card } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -118,65 +119,67 @@ export function MapPageClient({
   return (
     <div>
       {/* Filters Bar */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-row lg:items-center gap-4 mb-6">
-        <div className="sm:col-span-2 lg:w-64">
-          <Input
-            type="text"
-            placeholder="Search jobs..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-11 bg-[#f5f5f5] border-0 rounded-full px-4 text-sm placeholder:text-[#666]"
-          />
+      <Card className="p-6 border-[#E6E7EA] shadow-none rounded-lg mb-6 lg:p-0 lg:border-0 lg:rounded-none lg:bg-transparent">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-row lg:items-center gap-4">
+          <div className="sm:col-span-2 lg:w-64">
+            <Input
+              type="text"
+              placeholder="Search jobs..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full h-11 bg-[#f5f5f5] border-0 rounded-full px-4 text-sm placeholder:text-[#666]"
+            />
+          </div>
+          <div className="lg:w-56">
+            <Select
+              value={selectedLocation}
+              onValueChange={handleLocationChange}
+            >
+              <SelectTrigger className="w-full h-11 border-[#E6E7EA] rounded-md text-sm">
+                <SelectValue placeholder="All locations" />
+              </SelectTrigger>
+              <SelectContent>
+                {locations.map((location) => (
+                  <SelectItem key={location} value={location}>
+                    {location}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="lg:w-56">
+            <Select
+              value={selectedDepartment}
+              onValueChange={setSelectedDepartment}
+            >
+              <SelectTrigger className="w-full h-11 border-[#E6E7EA] rounded-md text-sm">
+                <SelectValue placeholder="All departments" />
+              </SelectTrigger>
+              <SelectContent>
+                {departments.map((department) => (
+                  <SelectItem key={department} value={department}>
+                    {department}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div className="flex items-center gap-2 sm:col-span-2 lg:col-span-1">
+            <Switch
+              id="include-remote"
+              checked={includeRemote}
+              onCheckedChange={setIncludeRemote}
+              className="data-[state=checked]:bg-[#0089FF]"
+            />
+            <label
+              htmlFor="include-remote"
+              className="text-sm text-[#040D2E] cursor-pointer select-none"
+            >
+              Remote positions
+            </label>
+          </div>
         </div>
-        <div className="lg:w-56">
-          <Select
-            value={selectedLocation}
-            onValueChange={handleLocationChange}
-          >
-            <SelectTrigger className="w-full h-11 border-[#E6E7EA] rounded-md text-sm">
-              <SelectValue placeholder="All locations" />
-            </SelectTrigger>
-            <SelectContent>
-              {locations.map((location) => (
-                <SelectItem key={location} value={location}>
-                  {location}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="lg:w-56">
-          <Select
-            value={selectedDepartment}
-            onValueChange={setSelectedDepartment}
-          >
-            <SelectTrigger className="w-full h-11 border-[#E6E7EA] rounded-md text-sm">
-              <SelectValue placeholder="All departments" />
-            </SelectTrigger>
-            <SelectContent>
-              {departments.map((department) => (
-                <SelectItem key={department} value={department}>
-                  {department}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex items-center gap-2 sm:col-span-2 lg:col-span-1">
-          <Switch
-            id="include-remote"
-            checked={includeRemote}
-            onCheckedChange={setIncludeRemote}
-            className="data-[state=checked]:bg-[#0089FF]"
-          />
-          <label
-            htmlFor="include-remote"
-            className="text-sm text-[#040D2E] cursor-pointer select-none"
-          >
-            Remote positions
-          </label>
-        </div>
-      </div>
+      </Card>
 
       {/* Map and List Layout */}
       <div className="flex flex-col lg:flex-row gap-0">
