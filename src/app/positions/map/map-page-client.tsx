@@ -61,7 +61,7 @@ export function MapPageClient({
   const [selectedDepartment, setSelectedDepartment] = useState("All departments");
   const [mapSelectedLocation, setMapSelectedLocation] = useState<string | null>(null);
 
-  // Handle location selection and sync remote toggle
+  // Handle location dropdown selection and sync remote toggle
   const handleLocationChange = (location: string) => {
     setSelectedLocation(location);
 
@@ -71,6 +71,16 @@ export function MapPageClient({
       } else if (location.includes("(Onsite)") || location.includes("(Hybrid)")) {
         setIncludeRemote(false);
       }
+    }
+  };
+
+  // Handle map marker click and sync remote toggle
+  const handleMapLocationSelect = (location: string | null) => {
+    setMapSelectedLocation(location);
+
+    // If selecting a physical location on the map, turn off remote toggle
+    if (location !== null) {
+      setIncludeRemote(false);
     }
   };
 
@@ -188,7 +198,7 @@ export function MapPageClient({
           <MapClient
             jobs={mapJobs}
             selectedLocation={mapSelectedLocation}
-            onLocationSelect={setMapSelectedLocation}
+            onLocationSelect={handleMapLocationSelect}
             filterLocation={selectedLocation}
           />
         </div>
