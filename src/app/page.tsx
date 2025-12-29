@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <CareersHeader showSubNav />
+      <CareersHeader showSubNav showBanner />
       <main className="flex-1">
         {/* Hero Section */}
         <section className="bg-white">

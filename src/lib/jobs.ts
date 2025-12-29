@@ -382,8 +382,8 @@ export async function fetchJobs(): Promise<JobDetail[]> {
       }
     }
 
-    // Sort by published date (newest first)
-    jobs.sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
+    // Sort alphabetically by title
+    jobs.sort((a, b) => a.title.localeCompare(b.title));
 
     return jobs;
   } catch (error) {

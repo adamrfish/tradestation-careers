@@ -106,10 +106,6 @@ export default async function PositionDetailPage({
                 <span className="text-[#040D2E]">Job ID</span>
                 <p className="text-[#040D2E] font-medium mt-2">{position.jobId}</p>
               </div>
-              <div>
-                <span className="text-[#040D2E]">Posted</span>
-                <p className="text-[#040D2E] font-medium mt-2">{new Date(position.publishedDate).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}</p>
-              </div>
             </div>
           </div>
         </section>

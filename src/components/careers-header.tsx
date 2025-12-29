@@ -165,19 +165,22 @@ function MobileMenuItem({ item, onClose, isDark = true }: { item: MenuItem; onCl
 interface CareersHeaderProps {
   variant?: "home" | "default";
   showSubNav?: boolean;
+  showBanner?: boolean;
 }
 
-export function CareersHeader({ variant = "default", showSubNav = false }: CareersHeaderProps) {
+export function CareersHeader({ variant = "default", showSubNav = false, showBanner = false }: CareersHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* Hiring Banner */}
-      <div className="text-center py-2 border-b bg-[#0089FF] border-[#0089FF]">
-        <p className="text-sm font-medium text-white">
-          TradeStation is <Link href="/positions" className="underline hover:no-underline">hiring</Link>!
-        </p>
-      </div>
+      {/* Hiring Banner - Only on landing page */}
+      {showBanner && (
+        <div className="text-center py-2 border-b bg-[#0089FF] border-[#0089FF]">
+          <p className="text-sm font-medium text-white">
+            TradeStation is <Link href="/positions" className="underline hover:no-underline">hiring</Link>!
+          </p>
+        </div>
+      )}
 
       {/* Main Navigation */}
       <div className={variant === "home" ? "bg-[#0A0B0D]" : "bg-white border-b border-[#E6E7EA]"}>

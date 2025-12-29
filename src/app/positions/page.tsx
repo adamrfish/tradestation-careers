@@ -14,26 +14,24 @@ export const metadata: Metadata = {
 export default async function PositionsPage() {
   const jobs = await fetchJobs();
 
-  // Transform to simpler format for the list and sort by posting date (newest first)
-  const positions: Job[] = jobs
-    .map((job) => ({
-      id: job.id,
-      slug: job.slug,
-      title: job.title,
-      department: job.department,
-      location: job.location,
-      state: job.state,
-      country: job.country,
-      postalCode: job.postalCode,
-      locationType: job.locationType,
-      type: job.type,
-      jobId: job.jobId,
-      applyUrl: job.applyUrl,
-      publishedDate: job.publishedDate,
-      updatedDate: job.updatedDate,
-      summary: job.summary,
-    }))
-    .sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
+  // Transform to simpler format for the list (already sorted alphabetically by fetchJobs)
+  const positions: Job[] = jobs.map((job) => ({
+    id: job.id,
+    slug: job.slug,
+    title: job.title,
+    department: job.department,
+    location: job.location,
+    state: job.state,
+    country: job.country,
+    postalCode: job.postalCode,
+    locationType: job.locationType,
+    type: job.type,
+    jobId: job.jobId,
+    applyUrl: job.applyUrl,
+    publishedDate: job.publishedDate,
+    updatedDate: job.updatedDate,
+    summary: job.summary,
+  }));
 
   // Get unique values for filters
   const locations = [
