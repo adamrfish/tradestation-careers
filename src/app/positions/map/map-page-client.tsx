@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
@@ -60,6 +60,7 @@ export function MapPageClient({
   const [selectedLocation, setSelectedLocation] = useState("All locations");
   const [selectedDepartment, setSelectedDepartment] = useState("All departments");
   const [mapSelectedLocation, setMapSelectedLocation] = useState<string | null>(null);
+  const previousRemoteState = useRef<boolean | null>(null);
 
   // Handle location dropdown selection and sync remote toggle
   const handleLocationChange = (location: string) => {
@@ -78,9 +79,16 @@ export function MapPageClient({
   const handleMapLocationSelect = (location: string | null) => {
     setMapSelectedLocation(location);
 
-    // If selecting a physical location on the map, turn off remote toggle
     if (location !== null) {
+      // Selecting a location: save current state and turn off remote
+      previousRemoteState.current = includeRemote;
       setIncludeRemote(false);
+    } else {
+      // Deselecting: restore previous state
+      if (previousRemoteState.current !== null) {
+        setIncludeRemote(previousRemoteState.current);
+        previousRemoteState.current = null;
+      }
     }
   };
 
