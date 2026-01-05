@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { ChevronLeft, MapPin, ArrowRight } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { CareersHeader } from "@/components/careers-header";
 import { LatestNews } from "@/components/latest-news";
 import { Footer } from "@/components/footer";
@@ -78,20 +78,6 @@ export function PositionsClient({
     <div className="min-h-screen flex flex-col">
       <CareersHeader />
       <main className="flex-1 bg-white">
-        {/* Map View Banner */}
-        <div className="bg-[#0089FF]">
-          <div className="w-[89%] max-w-[1200px] mx-auto py-3">
-            <Link
-              href="/positions/map"
-              className="flex items-center justify-center gap-2 text-white text-sm font-medium hover:opacity-90 transition-opacity"
-            >
-              <MapPin className="size-4" />
-              <span>See the new map-based experience</span>
-              <ArrowRight className="size-4" />
-            </Link>
-          </div>
-        </div>
-
         {/* Header */}
         <div className="border-b border-[#E6E7EA]">
           <div className="w-[89%] max-w-[1200px] mx-auto py-16">
